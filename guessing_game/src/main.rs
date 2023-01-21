@@ -8,21 +8,29 @@ fn main() {
 
     println!("The secret number is: {secret_number}");
 
-    println!("Please input your guess.");
-
-    let mut guess : String = String::new(); 
-
-    let _size = io::stdin()
-        .read_line(&mut guess) // read_line APPEND the input to the string
-        .expect("msg");
-
-    let guess: i32 = guess.trim().parse().expect("expecting a integer");
-
-    match guess.cmp(&secret_number) {
-        Ordering::Less => println!("Too small!"),
-        Ordering::Greater => println!("Too big!"),
-        Ordering::Equal => println!("You win!"),
+    loop{
+        println!("Please input your guess.");
+        
+        let mut guess : String = String::new(); 
+        
+        let _size = io::stdin()
+            .read_line(&mut guess) // read_line APPEND the input to the string
+            .expect("msg");
+        
+        //let guess: i32 = guess.trim().parse().expect("expecting a integer");
+        let guess: i32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+        
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => { 
+                println!("You win!");
+                break;
+            }
+        }   
     }
-
 
 }
